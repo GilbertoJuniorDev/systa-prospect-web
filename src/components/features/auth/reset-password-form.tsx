@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { AnimatePresence, motion, useReducedMotion, type Variants } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -12,8 +13,21 @@ import { Label } from '@/components/ui/label';
 import { resetPasswordSchema } from '@/lib/validations/auth';
 import type { ResetPasswordFormValues } from '@/types/auth';
 
+const EASE = [0.16, 1, 0.3, 1] as const;
+
+const field: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.28, ease: EASE } },
+};
+
+const container: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.07, delayChildren: 0.32 } },
+};
+
 export function ResetPasswordForm() {
   const router = useRouter();
+  const reduced = useReducedMotion();
   const searchParams = useSearchParams();
   const token = searchParams.get('token') ?? '';
   const email = searchParams.get('email') ?? '';
@@ -47,7 +61,12 @@ export function ResetPasswordForm() {
 
   if (!token || !email) {
     return (
-      <div className="text-center space-y-3 py-4">
+      <motion.div
+        className="text-center space-y-3 py-4"
+        initial={reduced ? false : { opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.28, ease: EASE, delay: 0.32 }}
+      >
         <p className="text-sm" style={{ color: 'var(--auth-destructive)' }}>
           Link inválido ou expirado.
         </p>
@@ -58,13 +77,20 @@ export function ResetPasswordForm() {
         >
           Solicitar novo link
         </Link>
-      </div>
+      </motion.div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
-      <div className="space-y-1.5">
+    <motion.form
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      className="space-y-5"
+      variants={reduced ? undefined : container}
+      initial={reduced ? false : 'hidden'}
+      animate={reduced ? undefined : 'show'}
+    >
+      <motion.div variants={reduced ? undefined : field} className="space-y-1.5">
         <Label
           htmlFor="newPassword"
           className="text-sm font-medium"
@@ -86,9 +112,9 @@ export function ResetPasswordForm() {
             {errors.newPassword.message}
           </p>
         )}
-      </div>
+      </motion.div>
 
-      <div className="space-y-1.5">
+      <motion.div variants={reduced ? undefined : field} className="space-y-1.5">
         <Label
           htmlFor="confirmPassword"
           className="text-sm font-medium"
@@ -110,48 +136,63 @@ export function ResetPasswordForm() {
             {errors.confirmPassword.message}
           </p>
         )}
-      </div>
+      </motion.div>
 
-      {serverError && (
-        <div className="space-y-2">
-          <p
-            role="alert"
-            className="text-sm text-center rounded-lg py-2.5 px-3"
-            style={{
-              color: 'var(--auth-destructive)',
-              background: 'oklch(0.97 0.04 25)',
-              border: '1px solid oklch(0.88 0.08 25)',
-            }}
+      <AnimatePresence>
+        {serverError && (
+          <motion.div
+            key="server-error"
+            className="space-y-2"
+            initial={reduced ? false : { opacity: 0, y: -6, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
           >
-            {serverError}
-          </p>
-          <div className="text-center">
-            <Link
-              href="/forgot-password"
-              className="text-sm hover:underline"
-              style={{ color: 'var(--auth-accent)' }}
+            <p
+              role="alert"
+              className="text-sm text-center rounded-lg py-2.5 px-3"
+              style={{
+                color: 'var(--auth-destructive)',
+                background: 'oklch(0.97 0.04 25)',
+                border: '1px solid oklch(0.88 0.08 25)',
+              }}
             >
-              Solicitar novo link
-            </Link>
-          </div>
-        </div>
-      )}
-
-      <Button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full h-11 font-semibold text-sm cursor-pointer"
-        style={{ background: 'var(--auth-primary)', color: '#fff' }}
-      >
-        {isSubmitting ? (
-          <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Salvando…
-          </>
-        ) : (
-          'Redefinir senha'
+              {serverError}
+            </p>
+            <div className="text-center">
+              <Link
+                href="/forgot-password"
+                className="text-sm hover:underline"
+                style={{ color: 'var(--auth-accent)' }}
+              >
+                Solicitar novo link
+              </Link>
+            </div>
+          </motion.div>
         )}
-      </Button>
-    </form>
+      </AnimatePresence>
+
+      <motion.div
+        variants={reduced ? undefined : field}
+        whileTap={isSubmitting || reduced ? undefined : { scale: 0.98 }}
+        transition={{ duration: 0.1 }}
+      >
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full h-11 font-semibold text-sm transition-colors cursor-pointer"
+          style={{ background: 'var(--auth-primary)', color: '#fff' }}
+        >
+          {isSubmitting ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Salvando…
+            </>
+          ) : (
+            'Redefinir senha'
+          )}
+        </Button>
+      </motion.div>
+    </motion.form>
   );
 }

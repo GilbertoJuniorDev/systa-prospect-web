@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import type React from 'react';
+import { AuthAnimatedWrapper } from '@/components/features/auth/auth-animated-wrapper';
 
 export const metadata: Metadata = {
   title: { template: '%s — Systa', default: 'Systa' },
@@ -21,40 +22,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         } as React.CSSProperties
       }
     >
-      <div className="w-full max-w-sm">
-        {/* Logo */}
-        <div className="mb-8 text-center">
-          <div
-            className="inline-flex items-center justify-center w-11 h-11 rounded-xl mb-4"
-            style={{
-              background: 'linear-gradient(135deg, oklch(0.68 0.25 320), oklch(0.52 0.24 290))',
-            }}
-          >
-            <span className="text-white font-bold text-lg">S</span>
-          </div>
-          <h1
-            className="text-xl font-bold"
-            style={{ color: 'var(--foreground)', letterSpacing: '-0.02em' }}
-          >
-            Systa
-          </h1>
-          <p className="text-sm mt-1" style={{ color: 'var(--muted-foreground)' }}>
-            Gestão de certificados sindicais
-          </p>
-        </div>
-
-        {/* Card */}
-        <div
-          className="rounded-2xl border p-8"
-          style={{
-            background: '#fff',
-            borderColor: 'var(--border)',
-            boxShadow: '0 4px 24px oklch(0.52 0.22 290 / 0.08)',
-          }}
-        >
-          {children}
-        </div>
-      </div>
+      <AuthAnimatedWrapper>{children}</AuthAnimatedWrapper>
     </div>
   );
 }

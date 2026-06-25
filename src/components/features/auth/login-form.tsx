@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { AnimatePresence, motion, useReducedMotion, type Variants } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -12,8 +13,21 @@ import { Label } from '@/components/ui/label';
 import { loginSchema } from '@/lib/validations/auth';
 import type { LoginFormValues } from '@/types/auth';
 
+const EASE = [0.16, 1, 0.3, 1] as const;
+
+const field: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.28, ease: EASE } },
+};
+
+const container: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.07, delayChildren: 0.32 } },
+};
+
 export function LoginForm() {
   const router = useRouter();
+  const reduced = useReducedMotion();
   const [serverError, setServerError] = useState<string | null>(null);
 
   const {
@@ -44,8 +58,15 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
-      <div className="space-y-1.5">
+    <motion.form
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      className="space-y-5"
+      variants={reduced ? undefined : container}
+      initial={reduced ? false : 'hidden'}
+      animate={reduced ? undefined : 'show'}
+    >
+      <motion.div variants={reduced ? undefined : field} className="space-y-1.5">
         <Label
           htmlFor="email"
           className="text-sm font-medium"
@@ -67,9 +88,9 @@ export function LoginForm() {
             {errors.email.message}
           </p>
         )}
-      </div>
+      </motion.div>
 
-      <div className="space-y-1.5">
+      <motion.div variants={reduced ? undefined : field} className="space-y-1.5">
         <div className="flex items-center justify-between">
           <Label
             htmlFor="password"
@@ -100,37 +121,50 @@ export function LoginForm() {
             {errors.password.message}
           </p>
         )}
-      </div>
+      </motion.div>
 
-      {serverError && (
-        <p
-          role="alert"
-          className="text-sm text-center rounded-lg py-2.5 px-3"
-          style={{
-            color: 'var(--auth-destructive)',
-            background: 'oklch(0.97 0.04 25)',
-            border: '1px solid oklch(0.88 0.08 25)',
-          }}
-        >
-          {serverError}
-        </p>
-      )}
-
-      <Button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full h-11 font-semibold text-sm transition-all duration-200 cursor-pointer"
-        style={{ background: 'var(--auth-primary)', color: '#fff' }}
-      >
-        {isSubmitting ? (
-          <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Entrando…
-          </>
-        ) : (
-          'Entrar'
+      <AnimatePresence>
+        {serverError && (
+          <motion.p
+            key="server-error"
+            role="alert"
+            className="text-sm text-center rounded-lg py-2.5 px-3"
+            style={{
+              color: 'var(--auth-destructive)',
+              background: 'oklch(0.97 0.04 25)',
+              border: '1px solid oklch(0.88 0.08 25)',
+            }}
+            initial={reduced ? false : { opacity: 0, y: -6, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+          >
+            {serverError}
+          </motion.p>
         )}
-      </Button>
-    </form>
+      </AnimatePresence>
+
+      <motion.div
+        variants={reduced ? undefined : field}
+        whileTap={isSubmitting || reduced ? undefined : { scale: 0.98 }}
+        transition={{ duration: 0.1 }}
+      >
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full h-11 font-semibold text-sm transition-colors cursor-pointer"
+          style={{ background: 'var(--auth-primary)', color: '#fff' }}
+        >
+          {isSubmitting ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Entrando…
+            </>
+          ) : (
+            'Entrar'
+          )}
+        </Button>
+      </motion.div>
+    </motion.form>
   );
 }

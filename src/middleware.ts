@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { decrypt } from '@/lib/session-edge';
 
-const protectedRoutes = ['/dashboard'];
+const protectedRoutes = ['/dashboard', '/consulta'];
 const publicAuthRoutes = ['/login', '/forgot-password', '/reset-password'];
 
 export default async function middleware(req: NextRequest): Promise<NextResponse> {

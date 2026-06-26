@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { LogoutButton } from '@/components/features/auth/logout-button';
+import { NavLinks } from './NavLinks';
 
 interface DashboardNavProps {
   userEmail: string;
@@ -32,6 +33,8 @@ export function DashboardNav({ userEmail }: DashboardNavProps) {
           Systa
         </span>
       </Link>
+
+      <NavLinks />
 
       <div className="ml-auto flex items-center gap-3">
         <div

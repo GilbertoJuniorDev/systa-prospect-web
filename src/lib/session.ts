@@ -27,7 +27,7 @@ export async function decrypt(token: string): Promise<SessionPayload | null> {
 
 export async function createSession(accessToken: string, userId: string, email: string): Promise<void> {
   const expiresAt = new Date(Date.now() + MAX_AGE * 1000).toISOString();
-  const sessionToken = await encrypt({ userId, email, expiresAt });
+  const sessionToken = await encrypt({ userId, email, expiresAt, accessToken });
   const cookieStore = await cookies();
   cookieStore.set(COOKIE_NAME, sessionToken, {
     httpOnly: true,

@@ -12,8 +12,16 @@ export interface ResetPasswordFormValues {
   confirmPassword: string;
 }
 
+export interface RegisterFormValues {
+  name?: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
 export interface SessionPayload {
   userId: string;
   email: string;
   expiresAt: string;
+  accessToken: string;
 }

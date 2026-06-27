@@ -4,9 +4,10 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
-import { Search, Loader2, Building2 } from 'lucide-react';
+import { Search, Loader2, Building2, Coins, AlertTriangle, ExternalLink } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import Link from 'next/link';
 
 import { buscaCnpjSchema, type BuscaCnpjSchemaType } from '@/lib/validations/busca-cnpj';
 import { buscarCnpj } from '@/lib/busca-cnpj-api';
@@ -65,8 +66,14 @@ export function BuscaCnpjPage() {
     setSearchCnpj(values.cnpj);
   }
 
+  const is402Error = (() => {
+    if (!isError || !error) return false;
+    return axios.isAxiosError(error) && error.response?.status === 402;
+  })();
+
   const errorMessage = (() => {
     if (!isError || !error) return null;
+    if (is402Error) return null; // handled separately
     if (axios.isAxiosError(error)) {
       return (error.response?.data as { error?: string })?.error ?? 'Erro ao consultar o CNPJ.';
     }
@@ -121,7 +128,7 @@ export function BuscaCnpjPage() {
                     </p>
                   )}
                 </div>
-                <div className="pt-6">
+                <div className="pt-6 flex flex-col items-start gap-1.5">
                   <Button
                     type="submit"
                     size="lg"
@@ -140,6 +147,19 @@ export function BuscaCnpjPage() {
                       </>
                     )}
                   </Button>
+                  {/* Cost indicator */}
+                  <span
+                    className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full"
+                    style={{
+                      background: 'oklch(0.94 0.025 290)',
+                      color: 'oklch(0.40 0.12 290)',
+                      border: '1px solid oklch(0.85 0.06 290)',
+                    }}
+                    aria-label="Custo de 1 crédito por consulta"
+                  >
+                    <Coins className="size-3" aria-hidden="true" />
+                    1 crédito por consulta
+                  </span>
                 </div>
               </div>
             </form>
@@ -150,7 +170,46 @@ export function BuscaCnpjPage() {
       {/* States */}
       {isFetching && <CnpjResultSkeleton />}
 
-      {isError && !isFetching && (
+      {isError && !isFetching && is402Error && (
+        <motion.div
+          initial={{ opacity: 0, y: 4 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="mt-6 rounded-xl border p-4"
+          style={{
+            background: 'oklch(0.97 0.025 60)',
+            borderColor: 'oklch(0.80 0.10 60)',
+          }}
+          role="alert"
+          aria-live="polite"
+        >
+          <div className="flex items-start gap-3">
+            <AlertTriangle
+              className="size-5 shrink-0 mt-0.5"
+              style={{ color: 'oklch(0.55 0.18 60)' }}
+              aria-hidden="true"
+            />
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold" style={{ color: 'oklch(0.35 0.14 60)' }}>
+                Créditos insuficientes
+              </p>
+              <p className="mt-0.5 text-sm" style={{ color: 'oklch(0.45 0.10 60)' }}>
+                Você não tem créditos suficientes para realizar esta consulta.
+              </p>
+              <Link
+                href="/creditos"
+                className="mt-2 inline-flex items-center gap-1 text-sm font-medium underline-offset-2 hover:underline transition-colors"
+                style={{ color: 'oklch(0.45 0.18 290)' }}
+              >
+                Comprar créditos
+                <ExternalLink className="size-3" aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
+        </motion.div>
+      )}
+
+      {isError && !isFetching && !is402Error && (
         <motion.div
           initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}

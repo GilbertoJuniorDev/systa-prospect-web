@@ -2,14 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createSession } from '@/lib/session';
 import { z } from 'zod';
 
-const loginSchema = z.object({
+const registerSchema = z.object({
+  name: z.string().min(2).optional(),
   email: z.string().email(),
-  password: z.string().min(1),
+  password: z.string().min(8),
 });
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const body = await request.json().catch(() => null);
-  const parsed = loginSchema.safeParse(body);
+  const parsed = registerSchema.safeParse(body);
 
   if (!parsed.success) {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
@@ -17,26 +18,25 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   const apiUrl = process.env.API_URL ?? 'http://localhost:3333';
 
-  let fastifyRes: Response;
+  let backendRes: Response;
   try {
-    fastifyRes = await fetch(`${apiUrl}/auth/login`, {
+    backendRes = await fetch(`${apiUrl}/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(parsed.data),
     });
   } catch {
-    return NextResponse.json({ error: 'Service unavailable' }, { status: 503 });
+    return NextResponse.json({ error: 'register_failed' }, { status: 500 });
   }
 
-  if (!fastifyRes.ok) {
-    const data = await fastifyRes.json().catch(() => ({}));
-    return NextResponse.json(
-      { error: data.error ?? 'Invalid credentials' },
-      { status: fastifyRes.status },
-    );
+  if (!backendRes.ok) {
+    if (backendRes.status === 409) {
+      return NextResponse.json({ error: 'email_already_exists' }, { status: 409 });
+    }
+    return NextResponse.json({ error: 'register_failed' }, { status: 500 });
   }
 
-  const { accessToken } = (await fastifyRes.json()) as { accessToken: string };
+  const { accessToken } = (await backendRes.json()) as { accessToken: string };
 
   const payload = JSON.parse(
     Buffer.from(accessToken.split('.')[1], 'base64url').toString(),
@@ -44,5 +44,5 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   await createSession(accessToken, payload.userId, payload.email);
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ success: true });
 }

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
-import { Search, Loader2, Building2, Coins, AlertTriangle, ExternalLink } from 'lucide-react';
+import { Search, Loader2, Building2, AlertTriangle, ExternalLink } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import Link from 'next/link';
@@ -52,7 +52,9 @@ export function BuscaCnpjPage() {
     queryKey: ['cnpj', searchCnpj],
     queryFn: () => buscarCnpj(searchCnpj!),
     enabled: searchCnpj !== null,
-    retry: false,
+    // Re-tenta 1x apenas em timeout/erro de rede (sem response). Não re-tenta em 4xx (404/400/402).
+    retry: (failureCount, err) =>
+      failureCount < 1 && axios.isAxiosError(err) && !err.response,
     staleTime: 1000 * 60 * 5,
   });
 
@@ -128,7 +130,7 @@ export function BuscaCnpjPage() {
                     </p>
                   )}
                 </div>
-                <div className="pt-6 flex flex-col items-start gap-1.5">
+                <div className="pt-6">
                   <Button
                     type="submit"
                     size="lg"
@@ -147,19 +149,6 @@ export function BuscaCnpjPage() {
                       </>
                     )}
                   </Button>
-                  {/* Cost indicator */}
-                  <span
-                    className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full"
-                    style={{
-                      background: 'oklch(0.94 0.025 290)',
-                      color: 'oklch(0.40 0.12 290)',
-                      border: '1px solid oklch(0.85 0.06 290)',
-                    }}
-                    aria-label="Custo de 1 crédito por consulta"
-                  >
-                    <Coins className="size-3" aria-hidden="true" />
-                    1 crédito por consulta
-                  </span>
                 </div>
               </div>
             </form>

@@ -396,12 +396,12 @@ export function ConsultaForm() {
                       <span
                         className="inline-flex items-center gap-1.5 text-xs"
                         style={{ color: 'var(--muted-foreground)' }}
-                        aria-label={`Exportar ${consultaTotal.toLocaleString('pt-BR')} registros custará ${Math.max(1, Math.ceil(consultaTotal / 1000))} créditos`}
+                        aria-label={`Exportar ${consultaTotal.toLocaleString('pt-BR')} registros custará ${Math.max(1, Math.ceil(consultaTotal / 10))} créditos`}
                       >
                         <Coins className="size-3 shrink-0" aria-hidden="true" />
                         Exportar ~{consultaTotal.toLocaleString('pt-BR')} registros custará{' '}
-                        <strong>{Math.max(1, Math.ceil(consultaTotal / 1000)).toLocaleString('pt-BR')}</strong>{' '}
-                        crédito{Math.max(1, Math.ceil(consultaTotal / 1000)) !== 1 ? 's' : ''}
+                        <strong>{Math.max(1, Math.ceil(consultaTotal / 10)).toLocaleString('pt-BR')}</strong>{' '}
+                        crédito{Math.max(1, Math.ceil(consultaTotal / 10)) !== 1 ? 's' : ''}
                       </span>
                     </>
                   )}

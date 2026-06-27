@@ -91,6 +91,16 @@
 }
 
 @layer base {
+  :root {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      scroll-behavior: auto;
+    }
+  }
+
   * {
     @apply border-border outline-ring/50;
   }

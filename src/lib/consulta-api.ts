@@ -1,6 +1,15 @@
 import axios from 'axios';
 import { apiClient } from './api-client';
 import type { CnaeOption, MunicipioOption, ConsultaApiBody, ConsultaResponse } from '@/types/consulta';
+import type { ConsultaParams } from '@/lib/credits-api';
+
+export interface MinhaConsulta {
+  id: string;
+  params: ConsultaParams;
+  total: number;
+  expiresAt: string;
+  createdAt: string;
+}
 
 export async function buscarCnaes(q: string): Promise<CnaeOption[]> {
   const { data } = await apiClient.get<{ dados: CnaeOption[] }>('/cnaes/buscar', {
@@ -22,8 +31,14 @@ export async function runConsulta(body: ConsultaApiBody): Promise<ConsultaRespon
   return data;
 }
 
+export async function getMinhasConsultas(): Promise<{ consultas: MinhaConsulta[] }> {
+  const { data } = await apiClient.get<{ consultas: MinhaConsulta[] }>('/consultas/minhas');
+  return data;
+}
+
 export async function exportarConsulta(body: ConsultaApiBody): Promise<Blob> {
-  // Fetch auth token via the same route the apiClient interceptor uses
+  // Fetch auth token via the same route the apiClient interceptor uses.
+  // Sem token a exportação não deve prosseguir — falha cedo no cliente.
   let token: string | null = null;
   try {
     const res = await fetch('/api/auth/token');
@@ -32,7 +47,11 @@ export async function exportarConsulta(body: ConsultaApiBody): Promise<Blob> {
       token = json.accessToken;
     }
   } catch {
-    // proceed without token
+    // tratado abaixo
+  }
+
+  if (!token) {
+    throw new Error('Sessão expirada. Faça login novamente para exportar.');
   }
 
   const { data } = await axios.post<Blob>(
@@ -43,7 +62,7 @@ export async function exportarConsulta(body: ConsultaApiBody): Promise<Blob> {
       timeout: 120_000,
       headers: {
         'Content-Type': 'application/json',
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        Authorization: `Bearer ${token}`,
       },
     },
   );

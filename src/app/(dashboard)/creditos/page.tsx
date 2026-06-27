@@ -294,7 +294,7 @@ function CreditsPageContent() {
           </div>
         ) : (
           <div
-            className="rounded-2xl border p-8 relative overflow-hidden"
+            className="rounded-2xl border p-5 sm:p-8 relative overflow-hidden"
             style={{ background: 'var(--card)', borderColor: 'var(--border)', boxShadow: '0 2px 12px oklch(0 0 0 / 0.06)' }}
           >
             {/* decorative gradient blob */}
@@ -329,7 +329,7 @@ function CreditsPageContent() {
               </div>
 
               <div
-                className="text-6xl font-extrabold tabular-nums mb-1 leading-none"
+                className="text-4xl sm:text-6xl font-extrabold tabular-nums mb-1 leading-none"
                 style={{ color: 'var(--foreground)', letterSpacing: '-0.04em' }}
               >
                 {(data?.balance ?? 0).toLocaleString('pt-BR')}
@@ -514,7 +514,7 @@ function CreditsPageContent() {
           >
             {/* table header */}
             <div
-              className="grid gap-4 px-6 py-3 text-xs font-semibold uppercase tracking-wider border-b"
+              className="hidden md:grid gap-4 px-6 py-3 text-xs font-semibold uppercase tracking-wider border-b"
               style={{
                 gridTemplateColumns: '140px 1fr 1fr 100px 28px',
                 color: 'var(--muted-foreground)',
@@ -538,10 +538,47 @@ function CreditsPageContent() {
 
                 return (
                   <div key={tx.id}>
-                    {/* linha principal */}
+                    {/* Mobile card layout */}
                     <div
                       className={cn(
-                        'grid gap-4 px-6 py-4 items-center text-sm transition-colors',
+                        'md:hidden flex items-center gap-3 px-4 py-3 transition-colors',
+                        hasDetails ? 'cursor-pointer hover:bg-muted/40' : 'hover:bg-muted/30',
+                        isExpanded && 'bg-muted/20',
+                      )}
+                      onClick={() => hasDetails && setExpandedId(isExpanded ? null : tx.id)}
+                      role={hasDetails ? 'button' : undefined}
+                      aria-expanded={hasDetails ? isExpanded : undefined}
+                      tabIndex={hasDetails ? 0 : undefined}
+                      onKeyDown={hasDetails ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setExpandedId(isExpanded ? null : tx.id); } } : undefined}
+                    >
+                      <div className="flex flex-col gap-0.5 flex-1 min-w-0">
+                        <span className="font-medium text-sm truncate" style={{ color: 'var(--foreground)' }}>
+                          {TYPE_LABEL[tx.type] ?? tx.type}
+                        </span>
+                        <span className="text-xs tabular-nums" style={{ color: 'var(--muted-foreground)' }}>
+                          {formatDate(tx.createdAt)}{tx.description ? ` · ${tx.description}` : ''}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span
+                          className="font-bold tabular-nums text-sm"
+                          style={{ color: positive ? 'oklch(0.52 0.18 142)' : 'oklch(0.58 0.22 27)' }}
+                        >
+                          {positive ? '+' : ''}{tx.amount.toLocaleString('pt-BR')}
+                        </span>
+                        {hasDetails && (
+                          <ChevronDown
+                            className="size-4 transition-transform duration-200"
+                            style={{ color: 'var(--muted-foreground)', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                          />
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Desktop grid layout */}
+                    <div
+                      className={cn(
+                        'hidden md:grid gap-4 px-6 py-4 items-center text-sm transition-colors',
                         hasDetails ? 'cursor-pointer hover:bg-muted/40' : 'hover:bg-muted/30',
                         isExpanded && 'bg-muted/20',
                       )}

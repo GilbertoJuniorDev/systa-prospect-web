@@ -2,13 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Coins } from 'lucide-react';
+import { Coins, History } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const links = [
-  { href: '/consulta', label: 'Consulta', icon: null },
-  { href: '/busca-cnpj', label: 'Busca CNPJ', icon: null },
-  { href: '/creditos', label: 'Créditos', icon: Coins },
+  { href: '/consulta',         label: 'Consulta',         icon: null    },
+  { href: '/minhas-consultas', label: 'Minhas Consultas', icon: History },
+  { href: '/busca-cnpj',       label: 'Busca CNPJ',       icon: null    },
+  { href: '/creditos',         label: 'Créditos',         icon: Coins   },
 ];
 
 export function NavLinks() {

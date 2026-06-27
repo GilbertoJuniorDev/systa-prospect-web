@@ -14,7 +14,7 @@ export default async function DashboardLayout({
   return (
     <div className="min-h-screen" style={{ background: 'var(--background)' }}>
       <DashboardNav userEmail={session.email} />
-      <main className="px-8 py-8">{children}</main>
+      <main className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8">{children}</main>
     </div>
   );
 }

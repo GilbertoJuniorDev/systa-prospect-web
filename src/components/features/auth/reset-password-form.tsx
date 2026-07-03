@@ -43,14 +43,11 @@ export function ResetPasswordForm() {
 
   async function onSubmit(data: ResetPasswordFormValues) {
     setServerError(null);
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/reset-password`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, email, newPassword: data.newPassword }),
-      },
-    );
+    const res = await fetch('/api/proxy/auth/reset-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token, email, newPassword: data.newPassword }),
+    });
 
     if (res.ok) {
       router.push('/login?reset=success');

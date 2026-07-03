@@ -27,14 +27,11 @@ export function ForgotPasswordForm() {
   });
 
   async function onSubmit(data: ForgotPasswordFormValues) {
-    await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/forgot-password`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      },
-    ).catch(() => null);
+    await fetch('/api/proxy/auth/forgot-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }).catch(() => null);
     setSubmitted(true);
   }
 

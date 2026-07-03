@@ -2,7 +2,6 @@
 
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { clearTokenCache } from '@/lib/api-client';
 
 interface AuthUser {
   userId: string;
@@ -23,7 +22,6 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
       setUser: (user) => set({ user, isAuthenticated: user !== null }),
       logout: async () => {
-        clearTokenCache();
         await fetch('/api/auth/logout', { method: 'POST' });
         set({ user: null, isAuthenticated: false });
         window.location.href = '/login';

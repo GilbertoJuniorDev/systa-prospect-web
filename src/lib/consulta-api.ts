@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { apiClient } from './api-client';
 import type { CnaeOption, MunicipioOption, ConsultaApiBody, ConsultaResponse } from '@/types/consulta';
 import type { ConsultaParams } from '@/lib/credits-api';
@@ -37,34 +36,9 @@ export async function getMinhasConsultas(): Promise<{ consultas: MinhaConsulta[]
 }
 
 export async function exportarConsulta(body: ConsultaApiBody): Promise<Blob> {
-  // Fetch auth token via the same route the apiClient interceptor uses.
-  // Sem token a exportação não deve prosseguir — falha cedo no cliente.
-  let token: string | null = null;
-  try {
-    const res = await fetch('/api/auth/token');
-    if (res.ok) {
-      const json = (await res.json()) as { accessToken: string };
-      token = json.accessToken;
-    }
-  } catch {
-    // tratado abaixo
-  }
-
-  if (!token) {
-    throw new Error('Sessão expirada. Faça login novamente para exportar.');
-  }
-
-  const { data } = await axios.post<Blob>(
-    `${process.env.NEXT_PUBLIC_API_URL}/consulta/exportar`,
-    body,
-    {
-      responseType: 'blob',
-      timeout: 120_000,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
+  const { data } = await apiClient.post<Blob>('/consulta/exportar', body, {
+    responseType: 'blob',
+    timeout: 120_000,
+  });
   return data;
 }

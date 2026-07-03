@@ -1,12 +1,10 @@
 import type { NextConfig } from "next";
 
 const isProd = process.env.NODE_ENV === "production";
-const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "";
 
-// connect-src precisa permitir a API backend e o Stripe.
-const connectSrc = ["'self'", apiUrl, "https://*.stripe.com"]
-  .filter(Boolean)
-  .join(" ");
+// API backend é acessada só via /api/proxy (mesma origem) — connect-src só
+// precisa liberar 'self' e o Stripe.
+const connectSrc = ["'self'", "https://*.stripe.com"].join(" ");
 
 const csp = [
   "default-src 'self'",

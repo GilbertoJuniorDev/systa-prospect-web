@@ -3,14 +3,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
     restart: unless-stopped
     environment:
       NODE_ENV: production
       PORT: 3000
       API_URL: ${API_URL}
       SESSION_SECRET: ${SESSION_SECRET}
+      INTERNAL_API_KEY: ${INTERNAL_API_KEY}
     expose:
       - '3000'
     healthcheck:

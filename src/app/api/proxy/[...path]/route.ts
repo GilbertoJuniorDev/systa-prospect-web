@@ -1,17 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
+import { backendFetch } from '@/lib/backend';
 
 async function handler(
   request: NextRequest,
   { params }: { params: Promise<{ path: string[] }> },
 ): Promise<NextResponse> {
   const { path } = await params;
-  const apiUrl = process.env.API_URL ?? 'http://localhost:3333';
   const session = await getSession();
 
-  const headers: Record<string, string> = {
-    'x-internal-api-key': process.env.INTERNAL_API_KEY ?? '',
-  };
+  const headers: Record<string, string> = {};
   if (session?.accessToken) {
     headers.Authorization = `Bearer ${session.accessToken}`;
   }
@@ -23,8 +21,8 @@ async function handler(
 
   let backendRes: Response;
   try {
-    backendRes = await fetch(
-      `${apiUrl}/${path.join('/')}${request.nextUrl.search}`,
+    backendRes = await backendFetch(
+      `/${path.join('/')}${request.nextUrl.search}`,
       {
         method: request.method,
         headers,

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createSession } from '@/lib/session';
+import { backendFetch } from '@/lib/backend';
 import { z } from 'zod';
 
 const registerSchema = z.object({
@@ -16,11 +17,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
   }
 
-  const apiUrl = process.env.API_URL ?? 'http://localhost:3333';
-
   let backendRes: Response;
   try {
-    backendRes = await fetch(`${apiUrl}/auth/register`, {
+    backendRes = await backendFetch('/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(parsed.data),

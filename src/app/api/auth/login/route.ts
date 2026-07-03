@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createSession } from '@/lib/session';
+import { backendFetch } from '@/lib/backend';
 import { z } from 'zod';
 
 const loginSchema = z.object({
@@ -15,11 +16,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
   }
 
-  const apiUrl = process.env.API_URL ?? 'http://localhost:3333';
-
   let fastifyRes: Response;
   try {
-    fastifyRes = await fetch(`${apiUrl}/auth/login`, {
+    fastifyRes = await backendFetch('/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(parsed.data),

@@ -19,7 +19,10 @@ services:
       retries: 3
     networks:
       - systa-network
+      - easypanel
 
 networks:
   systa-network:
+    external: true
+  easypanel:
     external: true

@@ -60,7 +60,7 @@ export function TransactionHistory({ transactions, isLoading, isError }: Transac
           Nenhuma transação ainda.
         </p>
         <p className="text-xs" style={{ color: 'var(--muted-foreground)', opacity: 0.7 }}>
-          Suas movimentações de créditos aparecerão aqui.
+          Suas movimentações de registros aparecerão aqui.
         </p>
       </div>
     );
@@ -84,7 +84,7 @@ export function TransactionHistory({ transactions, isLoading, isError }: Transac
         <span>Data</span>
         <span>Tipo</span>
         <span>Descrição</span>
-        <span className="text-right">Créditos</span>
+        <span className="text-right">Registros</span>
         <span />
       </div>
 

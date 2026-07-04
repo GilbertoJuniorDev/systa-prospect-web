@@ -356,10 +356,10 @@ export function ConsultaForm() {
                         color: 'oklch(0.40 0.12 290)',
                         border: '1px solid oklch(0.85 0.06 290)',
                       }}
-                      aria-label={`Saldo atual: ${creditsData.balance} créditos`}
+                      aria-label={`Saldo atual: ${creditsData.balance} registros`}
                     >
                       <Coins className="size-3" aria-hidden="true" />
-                      Saldo: {creditsData.balance.toLocaleString('pt-BR')} créditos
+                      Saldo: {creditsData.balance.toLocaleString('pt-BR')} registros
                     </span>
                   )}
                 </div>
@@ -396,12 +396,12 @@ export function ConsultaForm() {
                       <span
                         className="inline-flex items-center gap-1.5 text-xs"
                         style={{ color: 'var(--muted-foreground)' }}
-                        aria-label={`Exportar ${consultaTotal.toLocaleString('pt-BR')} registros custará ${Math.max(1, Math.ceil(consultaTotal / 10))} créditos`}
+                        aria-label={`Exportar ${consultaTotal.toLocaleString('pt-BR')} registros consumirá ${consultaTotal.toLocaleString('pt-BR')} do seu saldo`}
                       >
                         <Coins className="size-3 shrink-0" aria-hidden="true" />
-                        Exportar ~{consultaTotal.toLocaleString('pt-BR')} registros custará{' '}
-                        <strong>{Math.max(1, Math.ceil(consultaTotal / 10)).toLocaleString('pt-BR')}</strong>{' '}
-                        crédito{Math.max(1, Math.ceil(consultaTotal / 10)) !== 1 ? 's' : ''}
+                        Exportar ~{consultaTotal.toLocaleString('pt-BR')} registros consumirá{' '}
+                        <strong>{consultaTotal.toLocaleString('pt-BR')}</strong>{' '}
+                        registro{consultaTotal !== 1 ? 's' : ''} do seu saldo
                       </span>
                     </>
                   )}
@@ -442,19 +442,19 @@ export function ConsultaForm() {
                     />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold" style={{ color: 'oklch(0.35 0.14 60)' }}>
-                        Créditos insuficientes para exportar
+                        Registros insuficientes para exportar
                       </p>
                       <p className="mt-0.5 text-sm" style={{ color: 'oklch(0.45 0.10 60)' }}>
                         {exportInsufficientCredits.required > 0
-                          ? `Você precisaria de ${exportInsufficientCredits.required.toLocaleString('pt-BR')} créditos, mas possui apenas ${exportInsufficientCredits.balance.toLocaleString('pt-BR')}.`
-                          : 'Você não tem créditos suficientes para exportar esta consulta.'}
+                          ? `Você precisaria de ${exportInsufficientCredits.required.toLocaleString('pt-BR')} registros, mas possui apenas ${exportInsufficientCredits.balance.toLocaleString('pt-BR')}.`
+                          : 'Você não tem registros suficientes para exportar esta consulta.'}
                       </p>
                       <Link
                         href="/creditos"
                         className="mt-2 inline-flex items-center gap-1 text-sm font-medium underline-offset-2 hover:underline transition-colors"
                         style={{ color: 'oklch(0.45 0.18 290)' }}
                       >
-                        Comprar créditos
+                        Comprar registros
                         <ExternalLink className="size-3" aria-hidden="true" />
                       </Link>
                     </div>

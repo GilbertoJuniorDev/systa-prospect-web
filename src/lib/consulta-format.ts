@@ -17,7 +17,7 @@ export const TYPE_LABEL: Record<string, string> = {
   REGISTER_BONUS: 'Bônus de Cadastro',
   CNPJ_QUERY: 'Consulta CNPJ',
   EXPORT: 'Exportação',
-  STRIPE_PURCHASE: 'Compra de Créditos',
+  STRIPE_PURCHASE: 'Compra de Registros',
 };
 
 export function formatDateBR(iso: string): string {

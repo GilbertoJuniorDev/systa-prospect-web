@@ -12,7 +12,7 @@ import { LandingFooter } from '@/components/landing/footer';
 export const metadata: Metadata = {
   title: 'Systa — Inteligência de Dados B2B para o Brasil',
   description:
-    'Consulte empresas por CNPJ, filtre por CNAE, estado e cidade, e exporte resultados em Excel. Comece grátis com 5 créditos.',
+    'Consulte empresas por CNPJ, filtre por CNAE, estado e cidade, e exporte resultados em Excel. Comece grátis com 5 registros.',
 };
 
 export default async function LandingPage() {

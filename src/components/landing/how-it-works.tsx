@@ -8,7 +8,7 @@ const STEPS = [
     number: '01',
     title: 'Cadastre-se grátis',
     description:
-      'Crie sua conta em segundos. Sem cartão de crédito. Ganhe 5 créditos de bônus para começar a explorar a plataforma.',
+      'Crie sua conta em segundos. Sem cartão de crédito. Ganhe 5 registros de bônus para começar a explorar a plataforma.',
   },
   {
     number: '02',

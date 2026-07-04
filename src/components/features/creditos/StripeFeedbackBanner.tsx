@@ -17,7 +17,7 @@ export function StripeFeedbackBanner({ success, canceled }: StripeFeedbackBanner
           role="alert"
         >
           <CheckCircle2 className="shrink-0 size-5" />
-          Compra realizada com sucesso! Seus créditos foram adicionados.
+          Compra realizada com sucesso! Seus registros foram adicionados.
         </div>
       )}
       {canceled && (

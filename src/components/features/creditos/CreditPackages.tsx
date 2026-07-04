@@ -1,4 +1,4 @@
-import { Loader2 } from 'lucide-react';
+import { Loader2, Gift } from 'lucide-react';
 
 import type { PackageId } from '@/lib/credits-api';
 import { Button } from '@/components/ui/button';
@@ -84,27 +84,51 @@ export function CreditPackages({ isLoading, loadingPkg, onBuy }: CreditPackagesP
                 </span>
               </div>
 
-              {/* credits */}
+              {/* records */}
               <div className="mb-1">
-                <span
-                  className="text-4xl font-extrabold tabular-nums leading-none"
-                  style={{
-                    color: isPro ? 'oklch(0.95 0.04 290)' : 'var(--foreground)',
-                    letterSpacing: '-0.03em',
-                  }}
-                >
-                  {pkg.credits.toLocaleString('pt-BR')}
-                </span>
-                <span
-                  className="text-sm ml-1.5"
-                  style={{ color: isPro ? 'oklch(0.70 0.06 290)' : 'var(--muted-foreground)' }}
-                >
-                  créditos
-                </span>
+                <div className="flex items-baseline gap-1.5 flex-wrap">
+                  <span
+                    className="text-4xl font-extrabold tabular-nums leading-none"
+                    style={{
+                      color: isPro ? 'oklch(0.95 0.04 290)' : 'var(--foreground)',
+                      letterSpacing: '-0.03em',
+                    }}
+                  >
+                    {pkg.records.toLocaleString('pt-BR')}
+                  </span>
+                  <span
+                    className="text-sm"
+                    style={{ color: isPro ? 'oklch(0.70 0.06 290)' : 'var(--muted-foreground)' }}
+                  >
+                    registros
+                  </span>
+                </div>
+
+                {/* bonus callout — the "Max" plan's commercial hook */}
+                {pkg.bonus > 0 && (
+                  <div className="mt-2.5 flex flex-col gap-1">
+                    <span
+                      className="inline-flex items-center gap-1 self-start text-[11px] font-bold px-2.5 py-1 rounded-full text-white whitespace-nowrap"
+                      style={{
+                        background: `linear-gradient(90deg, ${pkg.accentFrom}, ${pkg.accentTo})`,
+                        boxShadow: '0 2px 8px oklch(0 0 0 / 0.18)',
+                      }}
+                    >
+                      <Gift className="size-3" aria-hidden="true" />
+                      + {pkg.bonus.toLocaleString('pt-BR')} de bônus
+                    </span>
+                    <span
+                      className="text-xs"
+                      style={{ color: isPro ? 'oklch(0.65 0.06 290)' : 'var(--muted-foreground)' }}
+                    >
+                      Total creditado: {pkg.credits.toLocaleString('pt-BR')} registros
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* price */}
-              <div className="mt-3 mb-6">
+              <div className="mt-3 mb-1">
                 <span
                   className="text-2xl font-bold"
                   style={{ color: isPro ? 'oklch(0.88 0.08 290)' : 'var(--foreground)' }}
@@ -118,6 +142,12 @@ export function CreditPackages({ isLoading, loadingPkg, onBuy }: CreditPackagesP
                   {pkg.priceNote}
                 </span>
               </div>
+              <p
+                className="text-xs mb-6"
+                style={{ color: isPro ? 'oklch(0.65 0.06 290)' : 'var(--muted-foreground)' }}
+              >
+                {pkg.perRecord}
+              </p>
 
               {/* buy button */}
               <Button

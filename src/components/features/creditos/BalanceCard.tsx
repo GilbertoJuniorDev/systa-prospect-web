@@ -53,7 +53,7 @@ export function BalanceCard({ balance, isLoading, isError }: BalanceCardProps) {
             <Coins className="size-5 text-white" />
           </div>
           <span className="text-sm font-medium" style={{ color: 'var(--muted-foreground)' }}>
-            Seu saldo de créditos
+            Seu saldo de registros
           </span>
           {/* status badge */}
           <span
@@ -75,7 +75,7 @@ export function BalanceCard({ balance, isLoading, isError }: BalanceCardProps) {
           {balance.toLocaleString('pt-BR')}
         </div>
         <p className="text-sm mt-2" style={{ color: 'var(--muted-foreground)' }}>
-          créditos disponíveis
+          registros disponíveis
         </p>
       </div>
     </div>

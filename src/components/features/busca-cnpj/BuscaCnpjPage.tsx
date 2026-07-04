@@ -180,17 +180,17 @@ export function BuscaCnpjPage() {
             />
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold" style={{ color: 'oklch(0.35 0.14 60)' }}>
-                Créditos insuficientes
+                Registros insuficientes
               </p>
               <p className="mt-0.5 text-sm" style={{ color: 'oklch(0.45 0.10 60)' }}>
-                Você não tem créditos suficientes para realizar esta consulta.
+                Você não tem registros suficientes para realizar esta consulta.
               </p>
               <Link
                 href="/creditos"
                 className="mt-2 inline-flex items-center gap-1 text-sm font-medium underline-offset-2 hover:underline transition-colors"
                 style={{ color: 'oklch(0.45 0.18 290)' }}
               >
-                Comprar créditos
+                Comprar registros
                 <ExternalLink className="size-3" aria-hidden="true" />
               </Link>
             </div>

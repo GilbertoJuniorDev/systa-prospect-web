@@ -17,7 +17,7 @@ export function CreditsBadge() {
       <div
         className="flex items-center gap-1.5 px-2.5 py-1 rounded-full animate-pulse"
         style={{ background: 'oklch(1 0 0 / 0.10)', minWidth: '56px', height: '26px' }}
-        aria-label="Carregando saldo de créditos"
+        aria-label="Carregando saldo de registros"
       />
     );
   }
@@ -30,7 +30,7 @@ export function CreditsBadge() {
         color: 'var(--nav-fg)',
         border: '1px solid oklch(1 0 0 / 0.18)',
       }}
-      title="Saldo de créditos"
+      title="Saldo de registros"
     >
       <Coins className="size-3.5 shrink-0" aria-hidden="true" />
       <span>{(data?.balance ?? 0).toLocaleString('pt-BR')}</span>

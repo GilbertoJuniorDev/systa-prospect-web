@@ -49,10 +49,10 @@ function CreditsPageContent() {
           className="text-3xl font-bold"
           style={{ color: 'var(--foreground)', letterSpacing: '-0.025em' }}
         >
-          Créditos
+          Registros
         </h1>
         <p className="mt-1 text-sm" style={{ color: 'var(--muted-foreground)' }}>
-          Gerencie e compre créditos para usar as funcionalidades da plataforma.
+          Gerencie e compre registros para usar as funcionalidades da plataforma.
         </p>
       </div>
 
@@ -70,7 +70,7 @@ function CreditsPageContent() {
       {/* ─────────────────── PACKAGES SECTION ─────────────────── */}
       <section aria-labelledby="packages-heading">
         <h2 id="packages-heading" className="text-base font-semibold mb-3" style={{ color: 'var(--foreground)' }}>
-          Comprar Créditos
+          Comprar Registros
         </h2>
         <CreditPackages isLoading={isLoading} loadingPkg={loadingPkg} onBuy={handleBuy} />
       </section>

@@ -9,7 +9,7 @@ const links = [
   { href: '/consulta',         label: 'Consulta',         icon: null    },
   { href: '/minhas-consultas', label: 'Minhas Consultas', icon: History },
   { href: '/busca-cnpj',       label: 'Busca CNPJ',       icon: null    },
-  { href: '/creditos',         label: 'Créditos',         icon: Coins   },
+  { href: '/creditos',         label: 'Registros',        icon: Coins   },
 ];
 
 export function NavLinks() {

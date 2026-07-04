@@ -32,9 +32,9 @@ const FEATURES = [
   },
   {
     Icon: Coins,
-    title: 'Créditos sem assinatura',
+    title: 'Registros sem assinatura',
     description:
-      'Pague apenas pelo que usar. Sem mensalidades, sem contratos. Compre créditos quando precisar.',
+      'Pague apenas pelo que usar. Sem mensalidades, sem contratos. Compre registros quando precisar.',
     gradientFrom: 'oklch(0.72 0.20 60)',
     gradientTo: 'oklch(0.58 0.22 40)',
   },

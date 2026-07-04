@@ -39,6 +39,8 @@ async function handler(
   if (backendContentType) resHeaders.set('content-type', backendContentType);
   const contentDisposition = backendRes.headers.get('content-disposition');
   if (contentDisposition) resHeaders.set('content-disposition', contentDisposition);
+  const creditsBalance = backendRes.headers.get('x-credits-balance');
+  if (creditsBalance) resHeaders.set('x-credits-balance', creditsBalance);
 
   return new NextResponse(body, { status: backendRes.status, headers: resHeaders });
 }

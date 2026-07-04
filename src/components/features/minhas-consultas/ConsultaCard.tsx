@@ -5,6 +5,7 @@ import {
   Download,
   Loader2,
   CalendarClock,
+  Calendar,
   MapPin,
   Building2,
 } from 'lucide-react';
@@ -13,6 +14,7 @@ import { exportarConsulta, type MinhaConsulta } from '@/lib/consulta-api';
 import {
   getExpiryInfo,
   formatDateBR,
+  formatAberturaRange,
   SITUACAO_LABEL,
   MEI_LABEL,
 } from '@/lib/consulta-format';
@@ -60,12 +62,16 @@ export function ConsultaCard({ consulta }: ConsultaCardProps) {
   async function handleRedownload() {
     setIsDownloading(true);
     try {
-      const blob = await exportarConsulta({
+      const { blob } = await exportarConsulta({
         cnaes: params.cnaes,
         uf: params.uf,
         municipios: params.municipios ?? [],
         situacao: params.situacao,
         mei: params.mei,
+        dataAberturaDeMes: params.dataAberturaDeMes,
+        dataAberturaDeAno: params.dataAberturaDeAno,
+        dataAberturaAteMes: params.dataAberturaAteMes,
+        dataAberturaAteAno: params.dataAberturaAteAno,
       });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -160,6 +166,11 @@ export function ConsultaCard({ consulta }: ConsultaCardProps) {
                 ? '1 município'
                 : `${params.municipios.length} municípios`}
             </FilterChip>
+          )}
+
+          {/* Data de abertura */}
+          {formatAberturaRange(params) && (
+            <FilterChip icon={Calendar}>{formatAberturaRange(params)}</FilterChip>
           )}
         </div>
 

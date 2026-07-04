@@ -1,7 +1,7 @@
-import { CalendarClock, Filter } from 'lucide-react';
+import { CalendarClock, Calendar, Filter } from 'lucide-react';
 
 import type { CreditTransaction } from '@/lib/credits-api';
-import { SITUACAO_LABEL, MEI_LABEL } from '@/lib/consulta-format';
+import { SITUACAO_LABEL, MEI_LABEL, formatAberturaRange } from '@/lib/consulta-format';
 import { FilterChip } from '@/components/ui/FilterChip';
 
 interface ExportDetailsProps {
@@ -42,6 +42,11 @@ export function ExportDetails({ cache }: ExportDetailsProps) {
         {params.cnaes.map((cnae) => (
           <FilterChip key={cnae} variant="cnae">CNAE {cnae}</FilterChip>
         ))}
+
+        {/* Data de abertura */}
+        {formatAberturaRange(params) && (
+          <FilterChip icon={Calendar}>{formatAberturaRange(params)}</FilterChip>
+        )}
       </div>
 
       {/* Metadados */}

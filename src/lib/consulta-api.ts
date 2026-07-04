@@ -35,10 +35,16 @@ export async function getMinhasConsultas(): Promise<{ consultas: MinhaConsulta[]
   return data;
 }
 
-export async function exportarConsulta(body: ConsultaApiBody): Promise<Blob> {
-  const { data } = await apiClient.post<Blob>('/consulta/exportar', body, {
+export interface ExportarConsultaResult {
+  blob: Blob;
+  newBalance: number | null;
+}
+
+export async function exportarConsulta(body: ConsultaApiBody): Promise<ExportarConsultaResult> {
+  const response = await apiClient.post<Blob>('/consulta/exportar', body, {
     responseType: 'blob',
     timeout: 120_000,
   });
-  return data;
+  const header = response.headers['x-credits-balance'];
+  return { blob: response.data, newBalance: header ? Number(header) : null };
 }

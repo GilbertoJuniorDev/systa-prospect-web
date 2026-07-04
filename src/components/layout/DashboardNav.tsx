@@ -9,13 +9,14 @@ import { cn } from '@/lib/utils';
 import { LogoutButton } from '@/components/features/auth/logout-button';
 import { NavLinks } from './NavLinks';
 import { CreditsBadge } from './CreditsBadge';
+import { NavBadge } from './NavBadge';
 
 const EASE_OUT = [0.16, 1, 0.3, 1] as const;
 
 const mobileLinks = [
   { href: '/consulta',         label: 'Consulta',         icon: null    },
   { href: '/minhas-consultas', label: 'Minhas Consultas', icon: History },
-  { href: '/busca-cnpj',       label: 'Busca CNPJ',       icon: null    },
+  { href: '/busca-cnpj',       label: 'Busca CNPJ',       icon: null,    badge: 'Gratuito' },
   { href: '/creditos',         label: 'Registros',        icon: Coins   },
 ];
 
@@ -108,7 +109,7 @@ export function DashboardNav({ userEmail }: DashboardNavProps) {
               aria-label="Navegação mobile"
               className="flex flex-col px-4 py-3 gap-1"
             >
-              {mobileLinks.map(({ href, label, icon: Icon }) => {
+              {mobileLinks.map(({ href, label, icon: Icon, badge }) => {
                 const active = pathname.startsWith(href);
                 return (
                   <Link
@@ -123,6 +124,7 @@ export function DashboardNav({ userEmail }: DashboardNavProps) {
                   >
                     {Icon && <Icon className="size-4 shrink-0" aria-hidden="true" />}
                     {label}
+                    {badge && <NavBadge>{badge}</NavBadge>}
                   </Link>
                 );
               })}

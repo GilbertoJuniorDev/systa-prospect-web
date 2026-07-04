@@ -6,6 +6,10 @@ export interface ConsultaParams {
   municipios?: string[];
   situacao: 'ativa' | 'inativa' | 'todas';
   mei: 'sim' | 'nao' | 'todos';
+  dataAberturaDeMes?: number;
+  dataAberturaDeAno?: number;
+  dataAberturaAteMes?: number;
+  dataAberturaAteAno?: number;
 }
 
 export interface ConsultaCacheData {

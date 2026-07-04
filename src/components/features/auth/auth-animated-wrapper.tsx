@@ -44,7 +44,7 @@ export function AuthAnimatedWrapper({ children }: { children: React.ReactNode })
           animate={{ opacity: 1 }}
           transition={{ duration: 0.28, delay: 0.22 }}
         >
-          Gestão de certificados sindicais
+          Inteligência comercial com dados do CNPJ
         </motion.p>
       </motion.div>
 

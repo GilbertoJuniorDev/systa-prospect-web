@@ -17,6 +17,10 @@ export interface ConsultaFormValues {
   municipios: MunicipioOption[];
   situacao: SituacaoFilter;
   mei: MeiFilter;
+  dataAberturaDeMes?: number;
+  dataAberturaDeAno?: number;
+  dataAberturaAteMes?: number;
+  dataAberturaAteAno?: number;
 }
 
 export interface ConsultaApiBody {
@@ -25,6 +29,10 @@ export interface ConsultaApiBody {
   municipios: string[];
   situacao: SituacaoFilter;
   mei: MeiFilter;
+  dataAberturaDeMes?: number;
+  dataAberturaDeAno?: number;
+  dataAberturaAteMes?: number;
+  dataAberturaAteAno?: number;
 }
 
 export interface ConsultaResponse {

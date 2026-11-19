@@ -2,73 +2,15 @@
 
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Zap, Star, Crown, Check } from 'lucide-react';
+import { Check, Gift } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
+import { PACKAGES } from '@/components/features/creditos/PackagesData';
 import { EASE_OUT } from './animation-constants';
 
 interface LandingPricingProps {
   isAuthenticated: boolean;
 }
-
-const PACKAGES = [
-  {
-    id: 'starter',
-    name: 'Starter',
-    credits: 50,
-    price: 'R$ 29',
-    priceNote: ',00',
-    perCredit: 'R$ 0,58 / crédito',
-    popular: false,
-    Icon: Zap,
-    accentFrom: 'oklch(0.65 0.15 220)',
-    accentTo: 'oklch(0.52 0.18 250)',
-    features: [
-      '50 créditos',
-      'Consulta CNPJ completa',
-      'Filtros por CNAE e UF',
-      'Exportação XLSX',
-    ],
-  },
-  {
-    id: 'pro',
-    name: 'Pro',
-    credits: 150,
-    price: 'R$ 59',
-    priceNote: ',00',
-    perCredit: 'R$ 0,39 / crédito',
-    popular: true,
-    Icon: Star,
-    accentFrom: 'oklch(0.68 0.25 320)',
-    accentTo: 'oklch(0.52 0.24 290)',
-    features: [
-      '150 créditos',
-      'Consulta CNPJ completa',
-      'Filtros por CNAE e UF',
-      'Exportação XLSX',
-      'Melhor custo-benefício',
-    ],
-  },
-  {
-    id: 'max',
-    name: 'Max',
-    credits: 500,
-    price: 'R$ 149',
-    priceNote: ',00',
-    perCredit: 'R$ 0,30 / crédito',
-    popular: false,
-    Icon: Crown,
-    accentFrom: 'oklch(0.72 0.20 60)',
-    accentTo: 'oklch(0.58 0.22 40)',
-    features: [
-      '500 créditos',
-      'Consulta CNPJ completa',
-      'Filtros por CNAE e UF',
-      'Exportação XLSX',
-      'Maior volume de prospecção',
-    ],
-  },
-];
 
 export function LandingPricing({ isAuthenticated }: LandingPricingProps) {
   const reduced = useReducedMotion();
@@ -102,7 +44,7 @@ export function LandingPricing({ isAuthenticated }: LandingPricingProps) {
             Pague pelo que usar
           </h2>
           <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>
-            Comece com 5 créditos grátis ao criar sua conta. Sem assinaturas, sem contratos.
+            Comece com 5 registros grátis ao criar sua conta. Sem assinaturas, sem contratos.
           </p>
         </motion.div>
 
@@ -170,10 +112,26 @@ export function LandingPricing({ isAuthenticated }: LandingPricingProps) {
                           : 'var(--muted-foreground)',
                       }}
                     >
-                      {pkg.credits} créditos
+                      {pkg.bonus > 0
+                        ? `${pkg.records.toLocaleString('pt-BR')} + ${pkg.bonus.toLocaleString('pt-BR')} registros`
+                        : `${pkg.records.toLocaleString('pt-BR')} registros`}
                     </div>
                   </div>
                 </div>
+
+                {/* bonus callout — the "Max" plan's commercial hook */}
+                {pkg.bonus > 0 && (
+                  <div
+                    className="mb-5 inline-flex items-center gap-1.5 self-start text-xs font-bold px-2.5 py-1 rounded-full text-white whitespace-nowrap"
+                    style={{
+                      background: `linear-gradient(90deg, ${pkg.accentFrom}, ${pkg.accentTo})`,
+                      boxShadow: '0 2px 8px oklch(0 0 0 / 0.18)',
+                    }}
+                  >
+                    <Gift size={12} aria-hidden="true" />
+                    Total creditado: {pkg.credits.toLocaleString('pt-BR')} registros
+                  </div>
+                )}
 
                 {/* Price */}
                 <div className="mb-6">
@@ -204,7 +162,7 @@ export function LandingPricing({ isAuthenticated }: LandingPricingProps) {
                         : 'var(--muted-foreground)',
                     }}
                   >
-                    {pkg.perCredit}
+                    {pkg.perRecord}
                   </p>
                 </div>
 

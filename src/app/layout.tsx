@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Systa",
-  description: "Plataforma de gestão de certificados sindicais",
+  description: "Inteligência comercial com dados do CNPJ",
 };
 
 export default function RootLayout({

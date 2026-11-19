@@ -4,12 +4,13 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Coins, History } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { NavBadge } from './NavBadge';
 
 const links = [
   { href: '/consulta',         label: 'Consulta',         icon: null    },
   { href: '/minhas-consultas', label: 'Minhas Consultas', icon: History },
-  { href: '/busca-cnpj',       label: 'Busca CNPJ',       icon: null    },
-  { href: '/creditos',         label: 'Créditos',         icon: Coins   },
+  { href: '/busca-cnpj',       label: 'Busca CNPJ',       icon: null,    badge: 'Gratuito' },
+  { href: '/creditos',         label: 'Registros',        icon: Coins   },
 ];
 
 export function NavLinks() {
@@ -17,7 +18,7 @@ export function NavLinks() {
 
   return (
     <nav className="flex items-center gap-1 ml-8">
-      {links.map(({ href, label, icon: Icon }) => {
+      {links.map(({ href, label, icon: Icon, badge }) => {
         const active = pathname.startsWith(href);
         return (
           <Link
@@ -35,6 +36,7 @@ export function NavLinks() {
           >
             {Icon && <Icon className="size-3.5 shrink-0" />}
             {label}
+            {badge && <NavBadge>{badge}</NavBadge>}
           </Link>
         );
       })}

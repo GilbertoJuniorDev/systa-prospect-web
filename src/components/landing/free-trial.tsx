@@ -71,7 +71,7 @@ export function LandingFreeTrial({ isAuthenticated }: LandingFreeTrialProps) {
                   backgroundClip: 'text',
                 }}
               >
-                5 créditos
+                5 registros
               </span>{' '}
               ao criar sua conta
             </h2>
@@ -80,7 +80,7 @@ export function LandingFreeTrial({ isAuthenticated }: LandingFreeTrialProps) {
               className="text-base md:text-lg leading-relaxed mb-8"
               style={{ color: 'var(--muted-foreground)' }}
             >
-              Explore a plataforma sem risco. Com os créditos de bônus você já consegue
+              Explore a plataforma sem risco. Com os registros de bônus você já consegue
               testar filtros, buscar empresas e exportar resultados reais.
             </p>
 
@@ -131,7 +131,7 @@ export function LandingFreeTrial({ isAuthenticated }: LandingFreeTrialProps) {
                 className="text-xs self-center"
                 style={{ color: 'var(--muted-foreground)' }}
               >
-                Sem cartão · 5 créditos ao ativar · Comece em segundos
+                Sem cartão · 5 registros ao ativar · Comece em segundos
               </p>
             </div>
           </motion.div>
@@ -210,12 +210,12 @@ export function LandingFreeTrial({ isAuthenticated }: LandingFreeTrialProps) {
                   className="text-base font-semibold"
                   style={{ color: 'var(--foreground)' }}
                 >
-                  créditos grátis
+                  registros grátis
                 </p>
               </div>
 
               {/* Credit dots */}
-              <div className="flex gap-2 mb-6" aria-label="5 créditos disponíveis">
+              <div className="flex gap-2 mb-6" aria-label="5 registros disponíveis">
                 {CREDITS.map((_, i) => (
                   <motion.div
                     key={i}

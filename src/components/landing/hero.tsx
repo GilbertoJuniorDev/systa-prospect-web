@@ -146,7 +146,7 @@ export function LandingHero({ isAuthenticated }: LandingHeroProps) {
             style={{ color: 'var(--muted-foreground)' }}
           >
             Consulte mais de 50 milhões de empresas, filtre por CNAE, estado e cidade, e
-            exporte listas qualificadas em Excel — tudo via créditos sem mensalidade.
+            exporte listas qualificadas em Excel — tudo via registros sem mensalidade.
           </motion.p>
 
           {/* CTAs */}
@@ -180,7 +180,7 @@ export function LandingHero({ isAuthenticated }: LandingHeroProps) {
                     boxShadow: '0 4px 18px oklch(0.52 0.22 290 / 0.35)',
                   }}
                 >
-                  Começar Grátis — 5 créditos grátis
+                  Começar Grátis — 5 registros grátis
                 </Link>
                 <a
                   href="#como-funciona"

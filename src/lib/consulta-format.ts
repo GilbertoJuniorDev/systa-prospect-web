@@ -17,7 +17,7 @@ export const TYPE_LABEL: Record<string, string> = {
   REGISTER_BONUS: 'Bônus de Cadastro',
   CNPJ_QUERY: 'Consulta CNPJ',
   EXPORT: 'Exportação',
-  STRIPE_PURCHASE: 'Compra de Créditos',
+  STRIPE_PURCHASE: 'Compra de Registros',
 };
 
 export function formatDateBR(iso: string): string {
@@ -26,6 +26,29 @@ export function formatDateBR(iso: string): string {
     month: '2-digit',
     year: 'numeric',
   });
+}
+
+interface AberturaRangeParams {
+  dataAberturaDeMes?: number;
+  dataAberturaDeAno?: number;
+  dataAberturaAteMes?: number;
+  dataAberturaAteAno?: number;
+}
+
+export function formatAberturaRange(params: AberturaRangeParams): string | null {
+  const de =
+    params.dataAberturaDeMes && params.dataAberturaDeAno
+      ? `${String(params.dataAberturaDeMes).padStart(2, '0')}/${params.dataAberturaDeAno}`
+      : null;
+  const ate =
+    params.dataAberturaAteMes && params.dataAberturaAteAno
+      ? `${String(params.dataAberturaAteMes).padStart(2, '0')}/${params.dataAberturaAteAno}`
+      : null;
+
+  if (de && ate) return `Abertura: ${de} – ${ate}`;
+  if (de) return `Abertura: a partir de ${de}`;
+  if (ate) return `Abertura: até ${ate}`;
+  return null;
 }
 
 export interface ExpiryInfo {

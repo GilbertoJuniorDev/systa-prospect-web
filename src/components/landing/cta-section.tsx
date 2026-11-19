@@ -61,7 +61,7 @@ export function LandingCta({ isAuthenticated }: LandingCtaProps) {
               className="text-base md:text-lg mb-8"
               style={{ color: 'oklch(0.78 0.05 290)' }}
             >
-              Crie sua conta grátis e ganhe 5 créditos para explorar a plataforma.{' '}
+              Crie sua conta grátis e ganhe 5 registros para explorar a plataforma.{' '}
               Sem cartão de crédito, sem mensalidade.
             </p>
 

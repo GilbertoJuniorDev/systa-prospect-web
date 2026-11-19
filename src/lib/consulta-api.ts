@@ -26,7 +26,9 @@ export async function buscarMunicipios(uf: string): Promise<MunicipioOption[]> {
 }
 
 export async function runConsulta(body: ConsultaApiBody): Promise<ConsultaResponse> {
-  const { data } = await apiClient.post<ConsultaResponse>('/consulta', body);
+  // A contagem com dezenas de CNAEs passa dos 30 s padrão do apiClient: o navegador abortava
+  // enquanto o servidor ainda respondia 200 (mesmo prazo da exportação).
+  const { data } = await apiClient.post<ConsultaResponse>('/consulta', body, { timeout: 120_000 });
   return data;
 }
 
